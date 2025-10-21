@@ -90,7 +90,8 @@
               "RelativeToolTip": "Backend\\Controllers\\SubmissionController.cs",
               "ViewState": "AgIAAGEAAAAAAAAAAAAowGAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T16:12:56.927Z"
+              "WhenOpened": "2025-10-16T16:12:56.927Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -163,7 +164,8 @@
               "RelativeToolTip": "Backend\\Controllers\\FormsController.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAgwBgAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T16:12:28.526Z"
+              "WhenOpened": "2025-10-16T16:12:28.526Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

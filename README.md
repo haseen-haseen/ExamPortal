@@ -2,7 +2,6 @@
 
 A full-stack web application that allows users to register, log in, fill exam forms, and make secure payments online. The system includes separate User and Admin portals with role-based authentication, dashboard analytics, and PDF receipt generation.
 
-
 ⚙️ Setup Instructions
 🖥️ 1. Clone the Repository
 git clone https://github.com/haseen-haseen/ExamPortal.git
@@ -29,7 +28,7 @@ Verify that tables (users, forms, submissions, payments) are visible.
 
 Before running the backend, update your server name in the connection string:
 
-Open this file in your backend project:
+Open the file:
 
 backend/appsettings.json
 
@@ -65,7 +64,7 @@ Click Run ▶️.
 
 Swagger UI should open automatically with available API endpoints at:
 
-https://localhost:<port>/swagger
+https://localhost:<port>/swagger/index.html
 
 🌐 5. Run the Frontend (Vue.js / React)
 
@@ -92,8 +91,75 @@ http://localhost:5173
 (or as shown in your terminal output)
 
 🔑 Login Credentials (Sample)
-Role	     Email	                      Password
-Admin	    admin@gmail.com               admin
-User	    user@gmail.com                user
+Role	Email	Password
+Admin	admin@gmail.com
+	admin
+User	user@gmail.com
+	user
 
-(Note.... Role will be fetched from the token)
+Note: Role will be fetched from the token.
+
+🧾 PDF Receipt Generation
+
+After a successful payment:
+
+A downloadable PDF receipt is automatically generated.
+
+The receipt includes:
+
+User details
+
+Form information
+
+Payment ID
+
+📊 Admin Features
+
+Create, edit, and delete exam forms
+
+View all user submissions and payments
+
+Create, edit, and delete users
+
+Change the status of submissions/payments to verify payments
+
+Dashboard showing:
+
+Total Users
+
+Total Forms
+
+Total Transactions
+
+👥 User Features
+
+Register / Login
+
+View available exam forms
+
+Apply for any exam by clicking the Apply Now button
+
+Make online payments securely after submitting the exam
+
+Download PDF receipts
+
+🧰 API Documentation
+
+Swagger automatically generates interactive API documentation.
+Once the backend is running, visit:
+
+https://localhost:7038/swagger/index.html
+
+💳 Payment Gateway Setup
+
+A dummy/fake Razorpay is used for testing.
+Enter any fake UPI/payment info → it will show payment successful.
+For real payments, add your Razorpay key in the frontend and test accordingly.
+
+
+📘 Author
+
+Name: Haseen
+GitHub: haseen-haseen
+
+Project: Exam Form & Payment Portal

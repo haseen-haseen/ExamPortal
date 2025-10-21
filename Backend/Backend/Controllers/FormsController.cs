@@ -1,5 +1,6 @@
 ﻿using Backend.Classes;
 using Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,7 @@ namespace Backend.Controllers
 {
     [Route("/[controller]")]
     [ApiController]
+    [Authorize]
     public class FormsController : ControllerBase
     {
         private readonly DatabaseConnection _db;
@@ -59,7 +61,6 @@ namespace Backend.Controllers
             }
         }
 
-        // POST /Forms/create
         [HttpPost("create")]
         public IActionResult Create([FromBody] FormsModel form)
         {
@@ -89,7 +90,7 @@ namespace Backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        // PUT /Forms/update
+
         [HttpPut("update/{id}")]
         public IActionResult Update(int id, [FromBody] FormsModel form)
         {
@@ -128,7 +129,6 @@ namespace Backend.Controllers
         }
 
 
-        // DELETE /Forms/delete/{id}
         [HttpDelete("delete/{id}")]
         public IActionResult Delete(int id)
         {

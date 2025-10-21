@@ -121,3 +121,4 @@ E:\VS2022\ExamPortal\Backend\Backend\bin\Debug\net8.0\runtimes\win-x86\native\li
 E:\VS2022\ExamPortal\Backend\Backend\bin\Debug\net8.0\runtimes\win-x86\native\libwinpthread-1.dll
 E:\VS2022\ExamPortal\Backend\Backend\bin\Debug\net8.0\runtimes\win-x86\native\qpdf.dll
 E:\VS2022\ExamPortal\Backend\Backend\bin\Debug\net8.0\runtimes\win-x86\native\zlib1.dll
+E:\VS2022\ExamPortal\Backend\Backend\obj\Debug\net8.0\Backend.sourcelink.json

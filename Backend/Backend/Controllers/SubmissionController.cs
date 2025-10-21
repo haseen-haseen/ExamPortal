@@ -1,5 +1,6 @@
 ﻿using Backend.Classes;
 using Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,7 @@ namespace Backend.Controllers
 {
     [Route("/[controller]")]
     [ApiController]
+    [Authorize]
     public class SubmissionController : ControllerBase
     {
         private readonly DatabaseConnection _db;
@@ -93,38 +95,7 @@ namespace Backend.Controllers
             }
         }
 
-        // GET /submissions/{id}
-        [HttpGet("{id}")]
-        public IActionResult GetSubmissionById(int id)
-        {
-            try
-            {
-                var dt = _db.ExecuteQuery($"SELECT * FROM Submissions WHERE SubmissionId = {id}");
-                if (dt.Rows.Count == 0) return NotFound("Submission not found.");
-
-                var row = dt.Rows[0];
-                var submission = new SubmissionsModel
-                {
-                    SubmissionId = Convert.ToInt32(row["SubmissionId"]),
-                    UserId = Convert.ToInt32(row["UserId"]),
-                    FormId = Convert.ToInt32(row["FormId"]),
-                    ReferenceNo = row["ReferenceNo"]?.ToString(),
-                    SubmittedData = row["SubmittedData"]?.ToString(),
-                    Status = row["Status"]?.ToString(),
-                    Remarks = row["Remarks"]?.ToString(),
-                    SubmittedAt = Convert.ToDateTime(row["SubmittedAt"]).ToString(),
-                    UpdatedAt = row["UpdatedAt"] != DBNull.Value ? Convert.ToDateTime(row["UpdatedAt"]).ToString() : null
-                };
-
-                return Ok(submission);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
-        // POST /submissions/create
+        
         [HttpPost("create")]
         public IActionResult Create([FromBody] SubmissionsModel model)
         {
@@ -170,7 +141,6 @@ namespace Backend.Controllers
         }
 
 
-        // PUT /submissions/update/{id}
         [HttpPut("update/{id}")]
         public IActionResult Update(int id, [FromBody] SubmissionsModel model)
         {
@@ -198,7 +168,6 @@ namespace Backend.Controllers
             }
         }
 
-        // DELETE /submissions/delete/{id}
         [HttpDelete("delete/{id}")]
         public IActionResult Delete(int id)
         {

@@ -1,5 +1,6 @@
 ﻿using Backend.Classes;
 using Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +13,7 @@ namespace Backend.Controllers
 {
     [Route("/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
 
@@ -65,7 +67,7 @@ namespace Backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
+        [AllowAnonymous]
         [HttpPost("login")]
         public IActionResult Login([FromBody] UsersModel model)
         {
@@ -145,8 +147,7 @@ namespace Backend.Controllers
             }
         }
 
-
-
+        [AllowAnonymous]
         [HttpPost("create")]
         [HttpPost("register")]
         public IActionResult Create([FromBody] UsersModel user)

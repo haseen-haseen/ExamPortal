@@ -42,7 +42,7 @@ export const examPortalApi = createApi({
     }),
 
     getUserById: builder.query({
-      query: (id) => `/users/${id}`,
+      query: (id) => `/users?userId=${id}`,
       providesTags: ["Users"],
     }),
 
@@ -80,7 +80,7 @@ export const examPortalApi = createApi({
     }),
 
     getFormById: builder.query({
-      query: (id) => `/forms/${id}`,
+      query: (id) => `/forms?formId=${id}`,
       providesTags: ["Forms"],
     }),
 

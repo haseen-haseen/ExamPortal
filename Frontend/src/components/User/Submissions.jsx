@@ -20,7 +20,7 @@ const Submissions = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-6 text-blue-700">My Submissions</h2>
+      <h2 className="text-2xl font-semibold mb-6 text-grey-700">My Submissions</h2>
 
   <div className="overflow-x-auto bg-white shadow-md rounded-lg border border-gray-200">
         <table className="min-w-full text-sm text-gray-700">

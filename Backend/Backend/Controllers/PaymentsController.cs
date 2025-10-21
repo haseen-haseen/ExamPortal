@@ -17,6 +17,7 @@ namespace Backend.Controllers
 {
     [Route("/[controller]")]
     [ApiController]
+    [Authorize]
     public class PaymentsController : ControllerBase
     {
         private readonly DatabaseConnection _db;
@@ -38,19 +39,37 @@ namespace Backend.Controllers
                 if (payment.SubmissionId == null || payment.Amount == null || string.IsNullOrEmpty(payment.TransactionId))
                     return BadRequest("Missing required payment details.");
 
+               
+
+                CheckDuplicacyPerameter checkParams = new CheckDuplicacyPerameter
+                {
+                    tableName = "Payments",
+                    fields = new string[] { "SubmissionId" },
+                    values = new string[] { payment.SubmissionId.ToString() },
+                    andFlag = true
+                };
+
+                bool isDuplicate = _validations.CheckDuplicateRecord(checkParams);
+
+                if (isDuplicate)
+                {
+                    return Conflict(new { message = "Payment already exists for this submission. Duplicate payments are not allowed." });
+                }
+
                 string query = $@"
-            INSERT INTO Payments(SubmissionId, PaymentGateway, TransactionId, PaymentMethod, Amount, Status, ReceiptUrl, PaymentDate, UpdatedAt)
-            VALUES ({payment.SubmissionId}, 
-                    '{payment.PaymentGateway}', 
-                    '{payment.TransactionId}', 
-                    '{payment.PaymentMethod}', 
-                    {payment.Amount}, 
-                    '{payment.Status}', 
-                    '{payment.ReceiptUrl}', 
-                    GETDATE(), 
+            INSERT INTO Payments (SubmissionId, PaymentGateway, TransactionId, PaymentMethod, Amount, Status, ReceiptUrl, PaymentDate, UpdatedAt)
+            VALUES ({payment.SubmissionId},
+                    '{payment.PaymentGateway}',
+                    '{payment.TransactionId}',
+                    '{payment.PaymentMethod}',
+                    {payment.Amount},
+                    '{payment.Status}',
+                    '{payment.ReceiptUrl}',
+                    GETDATE(),
                     GETDATE())";
 
                 _db.ExecuteNonQuery(query);
+
                 return Ok(new { message = "Payment record created successfully" });
             }
             catch (Exception ex)
@@ -58,6 +77,7 @@ namespace Backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
 
 
         [HttpPost("verify")]
@@ -86,7 +106,6 @@ namespace Backend.Controllers
         }
 
 
-        //[Authorize]
         [HttpGet]
         public IActionResult GetPayments()
         {
@@ -101,25 +120,23 @@ namespace Backend.Controllers
 
                 string query;
 
-                // Admin → See all payments
                 if (role == "Admin")
                 {
                     query = @"
-                        SELECT p.*, s.UserId, u.UserName, f.Title AS FormTitle
+                        SELECT p.*, s.UserId, u.UserName,u.Email, f.Title AS FormTitle
                         FROM Payments p
                         JOIN Submissions s ON p.SubmissionId = s.SubmissionId
                         JOIN Users u ON s.UserId = u.UserId
                         JOIN Forms f ON s.FormId = f.FormId
                         ORDER BY p.PaymentDate DESC";
                 }
-                // User → See only their payments
                 else
                 {
                     if (string.IsNullOrEmpty(userIdClaim))
                         return Unauthorized("UserId missing in token.");
 
                     query = $@"
-                        SELECT p.*, s.UserId, u.UserName, f.Title AS FormTitle
+                        SELECT p.*, s.UserId, u.UserName,u.Email, f.Title AS FormTitle
                         FROM Payments p
                         JOIN Submissions s ON p.SubmissionId = s.SubmissionId
                         JOIN Users u ON s.UserId = u.UserId
@@ -141,6 +158,7 @@ namespace Backend.Controllers
                         SubmissionId = Convert.ToInt32(row["SubmissionId"]),
                         UserId = Convert.ToInt32(row["UserId"]),
                         UserName = row["UserName"].ToString(),
+                        Email = row["Email"].ToString(),
                         FormTitle = row["FormTitle"].ToString(),
                         PaymentGateway = row["PaymentGateway"].ToString(),
                         TransactionId = row["TransactionId"].ToString(),

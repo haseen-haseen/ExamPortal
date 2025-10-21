@@ -33,7 +33,7 @@ export default function Users() {
         ? {
             userName: user.userName || "",
             email: user.email || "",
-            password: "",
+            password: user.password,
             phone: user.phone || "",
             role: user.role || "User",
             isActive: user.isActive ?? true,

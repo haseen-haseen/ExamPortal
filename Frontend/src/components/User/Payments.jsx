@@ -9,6 +9,7 @@ export default function Payments() {
   const { data: payments = [], isLoading } = useGetAllPaymentsQuery();
 
  const handleDownload = (payment) => {
+  console.log(payment)
   const doc = new jsPDF();
   doc.setFillColor(240, 248, 255);
   doc.rect(10, 10, 190, 110, "F");
